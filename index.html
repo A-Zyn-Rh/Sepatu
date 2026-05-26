@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO — Run Further. Run Wilder.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --lime: #C8F026;
+    --lime-dark: #A8CC10;
+    --black: #0A0A0A;
+    --gray-dark: #1C1C1C;
+    --gray-mid: #4A4A4A;
+    --gray-light: #F5F5F3;
+    --gray-border: #E8E8E4;
+    --white: #FFFFFF;
+    --red-badge: #FF3B3B;
+    --blue-badge: #0066FF;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--white); color: var(--black); overflow-x: hidden; }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--gray-light); }
+  ::-webkit-scrollbar-thumb { background: var(--black); border-radius: 3px; }
+
+  /* ─── ANNOUNCEMENT BAR ─── */
+  .announcement-bar {
+    background: var(--black);
+    color: var(--lime);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-align: center;
+    padding: 9px 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  .announcement-bar span { display: inline-block; animation: marquee 28s linear infinite; }
+  @keyframes marquee { 0%{transform:translateX(100vw);} 100%{transform:translateX(-100%);} }
+
+  /* ─── HEADER ─── */
+  header {
+    position: sticky; top: 0; z-index: 1000;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1.5px solid var(--gray-border);
+    transition: box-shadow .3s;
+  }
+  header.scrolled { box-shadow: 0 4px 32px rgba(0,0,0,.10); }
+
+  .header-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 68px;
+  }
+
+  /* Logo */
+  .logo {
+    font-family: var(--font-display);
+    font-size: 60px; font-weight: 1000;
+    letter-spacing: -1px;
+    color: var(--black);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0;
+    position: relative;
+  }
+  .logo span { color: var(--lime); display: inline-block; width: 10px; height: 10px; background: var(--lime); border-radius: 50%; margin-left: 3px; margin-bottom: 18px; }
+
+  /* Nav */
+  nav { display: flex; align-items: center; gap: 4px; }
+  .nav-item { position: relative; }
+  .nav-link {
+    font-family: var(--font-display);
+    font-size: 15px; font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-dark);
+    text-decoration: none;
+    padding: 24px 16px;
+    display: flex; align-items: center; gap: 5px;
+    transition: color .2s;
+    cursor: pointer;
+    background: none; border: none;
+  }
+  .nav-link:hover, .nav-item:hover > .nav-link { color: var(--black); }
+  .nav-link svg { transition: transform .2s; }
+  .nav-item:hover > .nav-link svg { transform: rotate(180deg); }
+
+  /* Dropdown */
+  .dropdown {
+    position: absolute; top: 100%; left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: var(--white);
+    border: 1.5px solid var(--gray-border);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.12), 0 4px 12px rgba(0,0,0,.06);
+    min-width: 220px; padding: 10px;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: all .22s cubic-bezier(.4,0,.2,1);
+  }
+  .nav-item:hover .dropdown { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+  .dropdown a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 8px;
+    font-size: 14px; font-weight: 500;
+    color: var(--gray-mid);
+    text-decoration: none;
+    transition: all .15s;
+  }
+  .dropdown a:hover { background: var(--gray-light); color: var(--black); padding-left: 18px; }
+  .dropdown-divider { height: 1px; background: var(--gray-border); margin: 6px 10px; }
+
+  /* Header right */
+  .header-right { display: flex; align-items: center; gap: 8px; }
+  .icon-btn {
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px; border: none; background: none;
+    color: var(--gray-dark); cursor: pointer;
+    transition: all .15s; position: relative;
+  }
+  .icon-btn:hover { background: var(--gray-light); color: var(--black); }
+  .cart-badge {
+    position: absolute; top: 6px; right: 6px;
+    width: 16px; height: 16px;
+    background: var(--lime); color: var(--black);
+    border-radius: 50%; font-size: 9px; font-weight: 700;
+    font-family: var(--font-mono);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .search-bar {
+    display: flex; align-items: center;
+    background: var(--gray-light);
+    border-radius: 10px; padding: 0 14px;
+    height: 40px; gap: 8px;
+    border: 1.5px solid transparent;
+    transition: border-color .2s;
+  }
+  .search-bar:focus-within { border-color: var(--lime); background: var(--white); }
+  .search-bar input { border: none; background: none; font-size: 13px; font-family: var(--font-body); color: var(--black); outline: none; width: 160px; }
+  .search-bar input::placeholder { color: #aaa; }
+
+  /* Mobile hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); border-radius: 2px; transition: all .3s; }
+
+  /* ─── HERO SLIDER ─── */
+  .hero { position: relative; height: calc(100vh - 100px); min-height: 560px; overflow: hidden; }
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity .9s ease, transform 1.2s ease;
+    transform: scale(1.03);
+  }
+  .slide.active { opacity: 1; transform: scale(1); }
+  .slide img { width: 100%; height: 100%; object-fit: cover; }
+  .slide-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(105deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.22) 55%, transparent 100%);
+  }
+  .slide-content {
+    position: absolute; bottom: 0; left: 0;
+    padding: 60px 80px;
+    max-width: 680px;
+  }
+  .slide-tag {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--lime); text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .slide-tag::before { content: ''; display: block; width: 28px; height: 2px; background: var(--lime); }
+  .slide-title {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 900; line-height: .92;
+    color: var(--white); letter-spacing: -1px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .slide-title em { color: var(--lime); font-style: normal; }
+  .slide-desc {
+    font-size: 16px; color: rgba(255,255,255,.8);
+    font-weight: 300; line-height: 1.6;
+    margin-bottom: 32px; max-width: 420px;
+  }
+  .slide-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--lime); color: var(--black);
+    font-family: var(--font-display); font-size: 15px; font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 16px 36px; border: none; border-radius: 6px;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all .2s;
+  }
+  .btn-primary:hover { background: var(--lime-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,240,38,.35); }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    font-family: var(--font-display); font-size: 15px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 15px 30px; border: 1.5px solid rgba(255,255,255,.5);
+    border-radius: 6px; cursor: pointer; text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,.1); }
+
+  /* Slider controls */
+  .slider-dots {
+    position: absolute; bottom: 32px; right: 80px;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,.4);
+    cursor: pointer; transition: all .3s; border: none;
+  }
+  .dot.active { width: 28px; border-radius: 4px; background: var(--lime); }
+  .slider-arrows { position: absolute; bottom: 28px; right: 180px; display: flex; gap: 8px; }
+  .arrow-btn {
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,.12); backdrop-filter: blur(8px);
+    border: 1.5px solid rgba(255,255,255,.2);
+    border-radius: 50%; color: var(--white);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+  .arrow-btn:hover { background: var(--lime); border-color: var(--lime); color: var(--black); }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 80px 0; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 40px; gap: 20px;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.15em;
+    color: var(--lime-dark); text-transform: uppercase;
+    margin-bottom: 6px; display: block;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 900; text-transform: uppercase;
+    line-height: .95; letter-spacing: -0.5px;
+  }
+  .section-link {
+    font-family: var(--font-display); font-size: 13px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--black); text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 2px solid var(--lime);
+    padding-bottom: 2px; white-space: nowrap;
+    transition: gap .2s;
+  }
+  .section-link:hover { gap: 10px; }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    background: var(--black); padding: 28px 0;
+    border-top: 3px solid var(--lime); border-bottom: none;
+  }
+  .stats-inner {
+    max-width: 1400px; margin: 0 auto; padding: 0 32px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 20px; text-align: center;
+  }
+  .stat-item { padding: 8px; border-right: 1px solid rgba(255,255,255,.1); }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--font-display); font-size: 42px; font-weight: 900;
+    color: var(--lime); line-height: 1;
+  }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,.6); letter-spacing: 0.08em; margin-top: 4px; font-weight: 500; }
+
+  /* ─── CATEGORY GRID ─── */
+  .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .cat-card {
+    position: relative; border-radius: 14px; overflow: hidden;
+    aspect-ratio: 4/3; cursor: pointer;
+  }
+  .cat-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .6s cubic-bezier(.4,0,.2,1);
+    filter: brightness(.82);
+  }
+  .cat-card:hover img { transform: scale(1.06); filter: brightness(.7); }
+  .cat-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, transparent 40%, rgba(0,0,0,.7) 100%);
+  }
+  .cat-content {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 28px 24px;
+  }
+  .cat-name {
+    font-family: var(--font-display); font-size: 26px; font-weight: 900;
+    color: var(--white); text-transform: uppercase; line-height: 1;
+    margin-bottom: 6px;
+  }
+  .cat-count { font-size: 12px; color: rgba(255,255,255,.65); font-weight: 400; }
+  .cat-chip {
+    display: inline-flex; align-items: center;
+    background: var(--lime); color: var(--black);
+    font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    padding: 4px 10px; border-radius: 4px;
+    margin-top: 10px;
+    transform: translateY(10px); opacity: 0;
+    transition: all .25s .05s;
+  }
+  .cat-card:hover .cat-chip { transform: translateY(0); opacity: 1; }
+
+  /* ─── PRODUCT GRID ─── */
+  .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+  .product-card {
+    background: var(--white);
+    border: 1.5px solid var(--gray-border);
+    border-radius: 14px; overflow: hidden;
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+    position: relative;
+  }
+  .product-card:hover {
+    border-color: var(--gray-dark);
+    box-shadow: 0 16px 48px rgba(0,0,0,.12);
+    transform: translateY(-4px);
+  }
+
+  .product-img-wrap {
+    position: relative; overflow: hidden;
+    aspect-ratio: 1; background: var(--gray-light);
+  }
+  .product-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .6s cubic-bezier(.4,0,.2,1);
+  }
+  .product-img-alt {
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity .4s;
+    object-fit: cover; width: 100%; height: 100%;
+  }
+  .product-card:hover .product-img-wrap img { transform: scale(1.08); }
+  .product-card:hover .product-img-alt { opacity: 1; }
+
+  /* Badges */
+  .product-badges { position: absolute; top: 12px; left: 12px; display: flex; flex-direction: column; gap: 5px; }
+  .badge {
+    display: inline-flex; align-items: center;
+    font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 4px;
+  }
+  .badge-new { background: var(--lime); color: var(--black); }
+  .badge-sale { background: var(--red-badge); color: var(--white); }
+  .badge-trail { background: var(--black); color: var(--lime); }
+  .badge-tech { background: var(--blue-badge); color: var(--white); }
+
+  /* Wishlist */
+  .wishlist-btn {
+    position: absolute; top: 12px; right: 12px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,.88); backdrop-filter: blur(4px);
+    border: 1px solid var(--gray-border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .2s;
+    color: var(--gray-mid);
+  }
+  .wishlist-btn:hover { background: var(--white); color: var(--red-badge); border-color: var(--red-badge); }
+  .wishlist-btn.active { background: var(--red-badge); border-color: var(--red-badge); color: var(--white); }
+
+  /* Add to cart overlay */
+  .atc-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 12px; background: linear-gradient(transparent, rgba(0,0,0,.5));
+    transform: translateY(100%); transition: transform .3s cubic-bezier(.4,0,.2,1);
+  }
+  .product-card:hover .atc-overlay { transform: translateY(0); }
+  .atc-btn {
+    width: 100%;
+    background: var(--lime); color: var(--black);
+    font-family: var(--font-display); font-size: 13px; font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 13px; border: none; border-radius: 8px;
+    cursor: pointer; transition: all .15s;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+  }
+  .atc-btn:hover { background: var(--lime-dark); }
+
+  .product-info { padding: 16px; }
+  .product-cat {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--gray-mid); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 5px;
+  }
+  .product-name {
+    font-family: var(--font-display); font-size: 16px; font-weight: 700;
+    color: var(--black); line-height: 1.2; margin-bottom: 10px;
+  }
+  .product-stars { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; }
+  .stars { color: #F5A623; font-size: 13px; letter-spacing: -1px; }
+  .review-count { font-size: 11px; color: var(--gray-mid); font-family: var(--font-mono); }
+  .product-price { display: flex; align-items: baseline; gap: 8px; }
+  .price-current {
+    font-family: var(--font-display); font-size: 19px; font-weight: 800;
+    color: var(--black);
+  }
+  .price-original { font-size: 13px; color: #bbb; text-decoration: line-through; font-weight: 400; }
+  .price-disc {
+    font-family: var(--font-mono); font-size: 10px;
+    background: rgba(200,240,38,.2); color: var(--lime-dark);
+    padding: 2px 6px; border-radius: 3px; font-weight: 700;
+  }
+
+  /* Color swatches */
+  .color-swatches { display: flex; gap: 5px; margin-top: 10px; }
+  .swatch {
+    width: 16px; height: 16px; border-radius: 50%;
+    cursor: pointer; border: 2px solid transparent;
+    transition: border-color .15s;
+  }
+  .swatch:hover, .swatch.active { border-color: var(--black); }
+
+  /* ─── PROMO BANNER ─── */
+  .promo-strip {
+    background: var(--lime); padding: 48px 0;
+    position: relative; overflow: hidden;
+  }
+  .promo-inner {
+    max-width: 1400px; margin: 0 auto; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px;
+  }
+  .promo-text h2 {
+    font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900; text-transform: uppercase; line-height: .9;
+    color: var(--black);
+  }
+  .promo-text p { font-size: 15px; color: var(--gray-dark); margin-top: 8px; }
+  .promo-strip::before {
+    content: 'RUN';
+    font-family: var(--font-display); font-size: 200px; font-weight: 900;
+    color: rgba(0,0,0,.06); position: absolute; right: 200px; top: -30px;
+    text-transform: uppercase; pointer-events: none;
+  }
+  .btn-dark {
+    background: var(--black); color: var(--white);
+    font-family: var(--font-display); font-size: 15px; font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 16px 36px; border: none; border-radius: 6px;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
+    white-space: nowrap; transition: all .2s;
+  }
+  .btn-dark:hover { background: var(--gray-dark); transform: translateY(-2px); }
+
+  /* ─── COMMUNITY GRID ─── */
+  .community-section { background: var(--gray-light); padding: 80px 0; }
+  .insta-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 40px; }
+  .insta-item {
+    aspect-ratio: 1; overflow: hidden; border-radius: 10px;
+    cursor: pointer; position: relative;
+  }
+  .insta-item img { width: 100%; height: 100%; object-fit: cover; transition: all .4s; filter: brightness(.9); }
+  .insta-item:hover img { transform: scale(1.08); filter: brightness(.7); }
+  .insta-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .3s;
+    background: rgba(0,0,0,.25);
+  }
+  .insta-item:hover .insta-overlay { opacity: 1; }
+  .insta-icon { color: var(--white); }
+
+  /* ─── BRAND TRUST ─── */
+  .brand-trust {
+    padding: 56px 0; border-top: 1.5px solid var(--gray-border);
+    border-bottom: 1.5px solid var(--gray-border);
+  }
+  .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .trust-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 24px; border-radius: 12px;
+    border: 1.5px solid var(--gray-border);
+    transition: border-color .2s, background .2s;
+  }
+  .trust-item:hover { border-color: var(--lime); background: rgba(200,240,38,.04); }
+  .trust-icon {
+    width: 44px; height: 44px; background: var(--gray-light);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .trust-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .trust-desc { font-size: 12px; color: var(--gray-mid); margin-top: 2px; }
+
+  /* ─── NEWSLETTER ─── */
+  .newsletter { background: var(--black); padding: 80px 0; }
+  .newsletter-inner {
+    max-width: 680px; margin: 0 auto; text-align: center; padding: 0 32px;
+  }
+  .newsletter h2 {
+    font-family: var(--font-display); font-size: clamp(36px, 5vw, 60px);
+    font-weight: 900; text-transform: uppercase; color: var(--white);
+    line-height: .95;
+  }
+  .newsletter h2 em { color: var(--lime); font-style: normal; }
+  .newsletter p { font-size: 14px; color: rgba(255,255,255,.55); margin: 14px 0 32px; }
+  .email-form { display: flex; gap: 10px; max-width: 480px; margin: 0 auto; }
+  .email-form input {
+    flex: 1; background: rgba(255,255,255,.08);
+    border: 1.5px solid rgba(255,255,255,.15);
+    border-radius: 8px; padding: 14px 18px;
+    font-size: 14px; color: var(--white);
+    font-family: var(--font-body); outline: none;
+    transition: border-color .2s;
+  }
+  .email-form input::placeholder { color: rgba(255,255,255,.35); }
+  .email-form input:focus { border-color: var(--lime); }
+
+  /* ─── FOOTER ─── */
+  footer { background: var(--black); border-top: 1px solid rgba(255,255,255,.08); padding: 60px 0 28px; }
+  .footer-grid {
+    max-width: 1400px; margin: 0 auto; padding: 0 32px;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-logo {
+    font-family: var(--font-display); font-size: 32px; font-weight: 900;
+    color: var(--white); margin-bottom: 14px; display: block;
+  }
+  .footer-desc { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.7; max-width: 280px; }
+  .social-links { display: flex; gap: 10px; margin-top: 20px; }
+  .social-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+    color: rgba(255,255,255,.6);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .2s; text-decoration: none;
+  }
+  .social-btn:hover { background: var(--lime); color: var(--black); border-color: var(--lime); }
+  .footer-col h4 {
+    font-family: var(--font-display); font-size: 13px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--white); margin-bottom: 16px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a { font-size: 13px; color: rgba(255,255,255,.45); text-decoration: none; transition: color .15s; }
+  .footer-col ul li a:hover { color: var(--lime); }
+  .footer-bottom {
+    max-width: 1400px; margin: 0 auto; padding: 20px 32px 0;
+    border-top: 1px solid rgba(255,255,255,.08);
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    flex-wrap: wrap;
+  }
+  .footer-bottom p { font-size: 12px; color: rgba(255,255,255,.3); font-family: var(--font-mono); }
+  .payment-icons { display: flex; gap: 8px; align-items: center; }
+  .pay-icon {
+    background: rgba(255,255,255,.1); border-radius: 4px;
+    padding: 4px 10px; font-size: 10px; color: rgba(255,255,255,.5);
+    font-family: var(--font-mono); letter-spacing: 0.05em;
+  }
+
+  /* ─── MOBILE NAV ─── */
+  .mobile-nav {
+    position: fixed; inset: 0; background: var(--white);
+    z-index: 2000; transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    padding: 80px 32px 40px; overflow-y: auto;
+  }
+  .mobile-nav.open { transform: translateX(0); }
+  .mobile-close {
+    position: absolute; top: 20px; right: 20px;
+    background: none; border: none; cursor: pointer;
+    font-size: 28px; color: var(--black); line-height: 1;
+  }
+  .mobile-menu-item { border-bottom: 1px solid var(--gray-border); }
+  .mobile-menu-item > a, .mobile-menu-item > button {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0;
+    font-family: var(--font-display); font-size: 22px; font-weight: 700;
+    text-transform: uppercase; color: var(--black);
+    text-decoration: none; background: none; border: none;
+    cursor: pointer; width: 100%;
+  }
+  .mobile-submenu { padding: 0 0 16px 16px; display: none; }
+  .mobile-submenu.open { display: block; }
+  .mobile-submenu a {
+    display: block; padding: 10px 0;
+    font-size: 15px; color: var(--gray-mid); text-decoration: none;
+  }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--black); color: var(--white);
+    border-radius: 10px; padding: 14px 20px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; z-index: 9999;
+    transform: translateY(100px); opacity: 0;
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 8px 32px rgba(0,0,0,.2);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); flex-shrink: 0; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1100px) {
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .insta-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 900px) {
+    nav, .search-bar { display: none; }
+    .hamburger { display: flex; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .promo-inner { flex-direction: column; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .header-inner { padding: 0 16px; }
+    .container { padding: 0 16px; }
+    section { padding: 56px 0; }
+    .slide-content { padding: 40px 24px; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .insta-grid { grid-template-columns: repeat(3, 1fr); }
+    .trust-grid { grid-template-columns: 1fr; }
+    .email-form { flex-direction: column; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .slider-arrows { display: none; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
+  }
+
+  /* Utility */
+  .flex-center { display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+
+<!-- ═══ ANNOUNCEMENT BAR ═══ -->
+<div class="announcement-bar">
+  <span>🏃 GRATIS ONGKIR UNTUK PEMBELIAN DI ATAS Rp 500.000 &nbsp;·&nbsp; 🎽 NEW ARRIVAL: SEO VELOCITY V3 SUDAH TERSEDIA &nbsp;·&nbsp; ⚡ FLASH SALE SETIAP HARI 19:00–21:00 WIB &nbsp;·&nbsp; 🏔️ KOLEKSI TRAIL RUN 2025 — JELAJAHI SEKARANG &nbsp;·&nbsp; 📦 PENGIRIMAN KE SELURUH INDONESIA &nbsp;·&nbsp; 🏃 GRATIS ONGKIR UNTUK PEMBELIAN DI ATAS Rp 500.000</span>
+</div>
+
+<!-- ═══ HEADER ═══ -->
+<header id="mainHeader">
+  <div class="header-inner">
+    <a href="#" class="logo">SEO<span></span></a>
+
+    <nav>
+      <div class="nav-item">
+        <button class="nav-link">
+          Sepatu
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="dropdown">
+          <a href="#">👟 Sepatu Lari Jalan Raya</a>
+          <a href="#">🏔️ Sepatu Trail Run</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" style="font-size:12px;color:#bbb;">Lihat Semua Sepatu →</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <button class="nav-link">
+          Pakaian
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="dropdown">
+          <a href="#">👕 Baju Lari / Jersey</a>
+          <a href="#">🩳 Celana Lari / Shorts</a>
+          <a href="#">🧦 Tights / Legging Lari</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" style="font-size:12px;color:#bbb;">Lihat Semua Pakaian →</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <button class="nav-link">
+          Aksesoris
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="dropdown">
+          <a href="#">⌚ Smartwatch GPS</a>
+          <a href="#">🧦 Kaos Kaki Lari</a>
+          <a href="#">🕶️ Kacamata Lari</a>
+          <a href="#">🧢 Topi Running</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" style="font-size:12px;color:#bbb;">Lihat Semua Aksesoris →</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="#" class="nav-link" style="color:#C8F026;font-weight:800;">
+          🔥 Promo
+        </a>
+      </div>
+    </nav>
+
+    <div class="header-right">
+      <div class="search-bar">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#aaa" stroke-width="1.5"/><path d="M11 11l3 3" stroke="#aaa" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" placeholder="Cari produk…">
+      </div>
+      <button class="icon-btn" onclick="showToast('Fitur akun segera hadir!')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="icon-btn" id="cartBtn" onclick="showToast('Keranjang belanja kamu kosong')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span class="cart-badge" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburgerBtn" onclick="openMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ MOBILE NAV ═══ -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" onclick="closeMobileNav()">✕</button>
+  <div class="mobile-menu-item">
+    <button onclick="toggleMobile(this)">Sepatu <span>+</span></button>
+    <div class="mobile-submenu">
+      <a href="#">Sepatu Lari Jalan Raya</a>
+      <a href="#">Sepatu Trail Run</a>
+    </div>
+  </div>
+  <div class="mobile-menu-item">
+    <button onclick="toggleMobile(this)">Pakaian <span>+</span></button>
+    <div class="mobile-submenu">
+      <a href="#">Baju Lari / Jersey</a>
+      <a href="#">Celana Lari / Shorts</a>
+      <a href="#">Tights / Legging</a>
+    </div>
+  </div>
+  <div class="mobile-menu-item">
+    <button onclick="toggleMobile(this)">Aksesoris <span>+</span></button>
+    <div class="mobile-submenu">
+      <a href="#">Smartwatch GPS</a>
+      <a href="#">Kaos Kaki</a>
+      <a href="#">Kacamata Lari</a>
+      <a href="#">Topi Running</a>
+    </div>
+  </div>
+  <div class="mobile-menu-item">
+    <a href="#" style="color:#C8F026">🔥 Promo</a>
+  </div>
+</div>
+
+<!-- ═══ HERO SLIDER ═══ -->
+<section class="hero">
+  <div class="slide active" id="slide1">
+    <img src="https://static.nike.com/a/images/w_1920,c_limit/9b16c49c-c250-4046-a72e-e39d1edd9043/best-trail-running-shoes-by-nike.jpg" alt="Runner on trail">
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Koleksi Unggulan 2025</div>
+      <h1 class="slide-title">RUN<br>FURTHER.<br><em>RUN</em><br>WILDER.</h1>
+      <p class="slide-desc">Peralatan terbaik untuk para pelari — dari aspal kota hingga jalur pegunungan terjal.</p>
+      <div class="slide-actions">
+        <a href="#featured" class="btn-primary">Belanja Sekarang <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#categories" class="btn-secondary">Jelajahi Koleksi</a>
+      </div>
+    </div>
+  </div>
+  <div class="slide" id="slide2">
+    <img src="https://static.nike.com/a/images/w_1920,c_limit/19f97326-5fd1-402a-91c1-8ea5b3088a89/nike-debuts-its-vaporfly-3-racing-shoe.jpg" alt="Trail shoes">
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Trail Run Series</div>
+      <h1 class="slide-title">CONQUER<br>EVERY<br><em>TRAIL.</em></h1>
+      <p class="slide-desc">Seo VaporFly Racing Shoe.</p>
+      <div class="slide-actions">
+        <a href="#featured" class="btn-primary">Lihat Koleksi Trail</a>
+        <a href="#" class="btn-secondary">Pelajari Lebih Lanjut</a>
+      </div>
+    </div>
+  </div>
+  <div class="slide" id="slide3">
+    <img src="https://static.nike.com/a/images/w_1920,c_limit/b85de5d2-23a3-4edc-81a4-338bad056481/the-best-nike-running-shoes-for-winter.jpg" alt="Running apparel">
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <div class="slide-tag">New Apparel Drop</div>
+      <h1 class="slide-title">LIGHT.<br>FAST.<br><em>best.</em></h1>
+      <p class="slide-desc">Koleksi sepatu lari Seo dirancang dengan teknologi Aero-Dry untuk menjaga kamu tetap sejuk dan cepat.</p>
+      <div class="slide-actions">
+        <a href="#featured" class="btn-primary">Shop Apparel</a>
+        <a href="#" class="btn-secondary">Koleksi Lengkap</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-dots">
+    <button class="dot active" onclick="goToSlide(0)"></button>
+    <button class="dot" onclick="goToSlide(1)"></button>
+    <button class="dot" onclick="goToSlide(2)"></button>
+  </div>
+  <div class="slider-arrows">
+    <button class="arrow-btn" onclick="prevSlide()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L6 8l4 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="arrow-btn" onclick="nextSlide()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l4 5-4 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ═══ STATS BAR ═══ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">50K+</div>
+      <div class="stat-label">Pelari Aktif</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">120+</div>
+      <div class="stat-label">Produk Premium</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Rating Rata-rata</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">34</div>
+      <div class="stat-label">Kota Terjangkau</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CATEGORIES ═══ -->
+<section id="categories">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">Temukan Apa yang Kamu Butuhkan</span>
+        <h2 class="section-title">Belanja<br>Per Kategori</h2>
+      </div>
+      <a href="#" class="section-link">Semua Kategori <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80&fit=crop" alt="Sepatu Lari">
+        <div class="cat-overlay"></div>
+        <div class="cat-content">
+          <div class="cat-name">Sepatu Lari & Trail</div>
+          <div class="cat-count">42 Produk Tersedia</div>
+          <div class="cat-chip">Jelajahi →</div>
+        </div>
+      </div>
+      <div class="cat-card">
+        <img src="https://assets.adidas.com/images/w_766,h_766,f_auto,q_auto,fl_lossy,c_fill,g_auto/d6e26bc540dd4994b682ac5a0129e392_9366/Essentials_Embroidered_Small_Logo_Tee_Blue_GK9649_01_laydown.jpg" alt="Pakaian Lari">
+        <div class="cat-overlay"></div>
+        <div class="cat-content">
+          <div class="cat-name">Pakaian Lari</div>
+          <div class="cat-count">38 Produk Tersedia</div>
+          <div class="cat-chip">Jelajahi →</div>
+        </div>
+      </div>
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=800&q=80&fit=crop" alt="Aksesoris">
+        <div class="cat-overlay"></div>
+        <div class="cat-content">
+          <div class="cat-name">Aksesoris & Gadget</div>
+          <div class="cat-count">56 Produk Tersedia</div>
+          <div class="cat-chip">Jelajahi →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURED PRODUCTS ═══ -->
+<section id="featured" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">Pilihan Terbaik Kami</span>
+        <h2 class="section-title">Produk<br>Unggulan</h2>
+      </div>
+      <a href="#" class="section-link">Lihat Semua <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+
+    <div class="product-grid">
+
+      <!-- 1 – Velocity Road Run -->
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_500,h_500/global/312125/06/sv01/fnd/IDN/fmt/png/Sepatu-Lari-MagMax-NITRO%E2%84%A2-2-Pria" alt="Seo Velocity Road Run">
+          <img class="product-img-alt" src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_500,h_500/global/312125/06/sv01/fnd/IDN/fmt/png/Sepatu-Lari-MagMax-NITRO%E2%84%A2-2-Pria" alt="Seo Velocity Road Run alt">
+          <div class="product-badges">
+            <span class="badge badge-new">Baru</span>
+          </div>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="atc-overlay">
+            <button class="atc-btn" onclick="addToCart('Seo Velocity Road Run')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Sepatu Lari</div>
+          <div class="product-name">Seo Velocity Road Run</div>
+          <div class="product-stars">
+            <span class="stars">★★★★★</span>
+            <span class="review-count">(128)</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">Rp 1.249.000</span>
+            <span class="price-original">Rp 1.499.000</span>
+            <span class="price-disc">-17%</span>
+          </div>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#C8F026;" title="Lime"></div>
+            <div class="swatch" style="background:#0066FF;" title="Blue"></div>
+            <div class="swatch" style="background:#FF3B3B;" title="Red"></div>
+            <div class="swatch" style="background:#1C1C1C;" title="Black"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 – Mud-Claw Trail -->
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/71dec6df-2d2e-480c-b9ab-528b49fb4291/NIKE+VOMERO+PREMIUM.png" alt="Seo Mud-Claw Trail">
+          <img class="product-img-alt" src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/71dec6df-2d2e-480c-b9ab-528b49fb4291/NIKE+VOMERO+PREMIUM.png" alt="alt">
+          <div class="product-badges">
+            <span class="badge badge-trail">Best</span>
+            <span class="badge badge-new">Baru</span>
+          </div>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="atc-overlay">
+            <button class="atc-btn" onclick="addToCart('Seo Vomero Premium')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Sepatu lari</div>
+          <div class="product-name">Seo Vomero Premium</div>
+          <div class="product-stars">
+            <span class="stars">★★★★★</span>
+            <span class="review-count">(84)</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">Rp 3.500.000</span>
+          </div>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#1C1C1C;" title="Black"></div>
+            <div class="swatch" style="background:#5E4B3C;" title="Earth"></div>
+            <div class="swatch" style="background:#C8F026;" title="Lime"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 – Aero-Dry Jersey -->
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/992077e3-87c3-4aa8-913a-810cbd42284c/NIKE+PEGASUS+PREMIUM.png" alt="Seo Aero-Dry Jersey">
+          <img class="product-img-alt" src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/992077e3-87c3-4aa8-913a-810cbd42284c/NIKE+PEGASUS+PREMIUM.png" alt="alt">
+          <div class="product-badges">
+            <span class="badge badge-sale">Sale</span>
+          </div>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="atc-overlay">
+            <button class="atc-btn" onclick="addToCart('Seo Pegasus Premium')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">sepatu Lari</div>
+          <div class="product-name">Seo Pegasus Premium</div>
+          <div class="product-stars">
+            <span class="stars">★★★★☆</span>
+            <span class="review-count">(203)</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">Rp 3.349.000</span>
+            <span class="price-original">Rp 5.449.000</span>
+            <span class="price-disc">-22%</span>
+          </div>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#FFFFFF;border:1.5px solid #ddd;" title="White"></div>
+            <div class="swatch" style="background:#C8F026;" title="Lime"></div>
+            <div class="swatch" style="background:#0066FF;" title="Blue"></div>
+            <div class="swatch" style="background:#1C1C1C;" title="Black"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 – Pace Split Shorts -->
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/328e9b09-4b24-41d3-8cf6-ab8dff5e0860/AIR+ZOOM+ALPHAFLY+NEXT%25+3.png" alt="Seo Pace Split Shorts">
+          <img class="product-img-alt" src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/328e9b09-4b24-41d3-8cf6-ab8dff5e0860/AIR+ZOOM+ALPHAFLY+NEXT%25+3.png" alt="alt">
+          <div class="product-badges">
+            <span class="badge badge-new">Bestseller</span>
+          </div>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="atc-overlay">
+            <button class="atc-btn" onclick="addToCart('Seo Air AlphaFly')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">sepatu Lari</div>
+          <div class="product-name">Seo Air AlphaFly </div>
+          <div class="product-stars">
+            <span class="stars">★★★★★</span>
+            <span class="review-count">(317)</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">Rp 4.489.000</span>
+          </div>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#1C1C1C;" title="Black"></div>
+            <div class="swatch" style="background:#C8F026;" title="Lime"></div>
+            <div class="swatch" style="background:#FF3B3B;" title="Red"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 – Run-Sync Smartwatch -->
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/ea9e5922-f7f6-4fb4-8898-2fa65b92c5da/W+NIKE+AIR+ZOOM+PEGASUS+42.png" alt="Seo Run-Sync Smartwatch">
+          <img class="product-img-alt" src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/ea9e5922-f7f6-4fb4-8898-2fa65b92c5da/W+NIKE+AIR+ZOOM+PEGASUS+42.png" alt="alt">
+          <div class="product-badges">
+            <span class="badge badge-tech">Women</span>
+            <span class="badge badge-new">New</span>
+          </div>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="atc-overlay">
+            <button class="atc-btn" onclick="addToCart('Seo Air Pegasus 42')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">sepatu Lari</div>
+          <div class="product-name">Seo Air Pegasus 42</div>
+          <div class="product-stars">
+            <span class="stars">★★★★★</span>
+            <span class="review-count">(96)</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">Rp 2.899.000</span>
+            <span class="price-original">Rp 3.299.000</span>
+            <span class="price-disc">-12%</span>
+          </div>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#1C1C1C;" title="Midnight"></div>
+            <div class="swatch" style="background:#C0C0C0;" title="Silver"></div>
+            <div class="swatch" style="background:#C8F026;" title="Volt"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 – Aero-Shield Sunglasses -->
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/f554f0fb-2061-437d-b7e1-095a6a08623e/W+NIKE+VOMERO+18.png">
+          <img class="product-img-alt" src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/f554f0fb-2061-437d-b7e1-095a6a08623e/W+NIKE+VOMERO+18.png" alt="alt">
+          <div class="product-badges">
+            <span class="badge badge-new">women</span>
+          </div>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="atc-overlay">
+            <button class="atc-btn" onclick="addToCart('Seo Vomero 18')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">sepatu Lari</div>
+          <div class="product-name">Seo Vomero 18</div>
+          <div class="product-stars">
+            <span class="stars">★★★★☆</span>
+            <span class="review-count">(72)</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">Rp 549.000</span>
+          </div>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#1C1C1C;" title="Black"></div>
+            <div class="swatch" style="background:#C19A6B;" title="Amber"></div>
+            <div class="swatch" style="background:#FF3B3B;" title="Red"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 – Blister-Free Socks -->
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/67a751ee-9949-4398-9bb8-078201db827e/NIKE+ACG+PEGASUS+TRAIL.png" alt="Seo Performance Socks">
+          <img class="product-img-alt" src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/67a751ee-9949-4398-9bb8-078201db827e/NIKE+ACG+PEGASUS+TRAIL.png" alt="alt">
+          <div class="product-badges">
+            <span class="badge badge-sale">Hemat</span>
+          </div>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="atc-overlay">
+            <button class="atc-btn" onclick="addToCart('Seo ACG Pegasus Trail')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Sepatu trail run</div>
+          <div class="product-name">Seo ACG Pegasus Trail</div>
+          <div class="product-stars">
+            <span class="stars">★★★★★</span>
+            <span class="review-count">(441)</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">Rp 2.999.000</span>
+            <span class="price-original">Rp 3.500.000</span>
+            <span class="price-disc">-23%</span>
+          </div>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#FFFFFF;border:1.5px solid #ddd;" title="White"></div>
+            <div class="swatch" style="background:#1C1C1C;" title="Black"></div>
+            <div class="swatch" style="background:#C8F026;" title="Lime"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 – Seo Trail Vest -->
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/27f0d42f-6dd7-47c2-83a8-1063b4ce678c/W+NIKE+ACG+ZEGAMA+TRAIL.png" alt="Seo Trail Vest">
+          <img class="product-img-alt" src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/27f0d42f-6dd7-47c2-83a8-1063b4ce678c/W+NIKE+ACG+ZEGAMA+TRAIL.png" alt="alt">
+          <div class="product-badges">
+            <span class="badge badge-trail">Trail</span>
+          </div>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="atc-overlay">
+            <button class="atc-btn" onclick="addToCart('Seo ACG Zegama Trail')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="2"/><path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">sepatu trail run</div>
+          <div class="product-name">Seo ACG Zegama Trail</div>
+          <div class="product-stars">
+            <span class="stars">★★★★★</span>
+            <span class="review-count">(58)</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">Rp 789.000</span>
+          </div>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#1C1C1C;" title="Black"></div>
+            <div class="swatch" style="background:#2D6A4F;" title="Forest"></div>
+            <div class="swatch" style="background:#C8F026;" title="Volt"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /product-grid -->
+  </div>
+</section>
+
+<!-- ═══ PROMO STRIP ═══ -->
+<div class="promo-strip">
+  <div class="promo-inner">
+    <div class="promo-text">
+      <h2>Flash Sale<br>Hari Ini</h2>
+      <p>Diskon hingga 40% untuk koleksi pilihan — hanya sampai tengah malam!</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-family:var(--font-display);font-size:48px;font-weight:900;color:var(--black);line-height:1;" id="countdown">05:42:18</div>
+        <div style="font-size:11px;letter-spacing:0.1em;color:rgba(0,0,0,.6);margin-top:4px;font-family:var(--font-mono);">JAM : MENIT : DETIK</div>
+      </div>
+      <a href="#featured" class="btn-dark">Belanja Sekarang <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BRAND TRUST ═══ -->
+<section class="brand-trust">
+  <div class="container">
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="#C8F026" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">Pengiriman Cepat</div>
+          <div class="trust-desc">Gratis ongkir min. Rp 500K ke seluruh Indonesia</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#C8F026" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">Produk Original</div>
+          <div class="trust-desc">100% produk asli bergaransi resmi Seo Indonesia</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#C8F026" stroke-width="2"/><polyline points="22,6 12,13 2,6" stroke="#C8F026" stroke-width="2"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">Retur 30 Hari</div>
+          <div class="trust-desc">Tidak cocok? Kembalikan dalam 30 hari tanpa syarat</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#C8F026" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">Transaksi Aman</div>
+          <div class="trust-desc">Enkripsi SSL 256-bit & berbagai metode pembayaran</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMMUNITY FEED ═══ -->
+<section class="community-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-label">Komunitas Seo</span>
+        <h2 class="section-title">Bergabunglah<br>Bersama Kami</h2>
+      </div>
+      <a href="#" class="section-link">@seo.run <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div class="insta-grid">
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&q=80&fit=crop" alt="community">
+        <div class="insta-overlay"><svg class="insta-icon" width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?w=400&q=80&fit=crop" alt="community">
+        <div class="insta-overlay"><svg class="insta-icon" width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80&fit=crop" alt="community">
+        <div class="insta-overlay"><svg class="insta-icon" width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://assets.adidas.com/images/w_766,h_766,f_auto,q_auto,fl_lossy,c_fill,g_auto/d6e26bc540dd4994b682ac5a0129e392_9366/Essentials_Embroidered_Small_Logo_Tee_Blue_GK9649_01_laydown.jpg" alt="community">
+        <div class="insta-overlay"><svg class="insta-icon" width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&q=80&fit=crop" alt="community">
+        <div class="insta-overlay"><svg class="insta-icon" width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80&fit=crop" alt="community">
+        <div class="insta-overlay"><svg class="insta-icon" width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ NEWSLETTER ═══ -->
+<section class="newsletter">
+  <div class="newsletter-inner">
+    <h2>JOIN THE<br><em>SEO CREW</em></h2>
+    <p>Dapatkan tips lari, early access koleksi baru, dan penawaran eksklusif langsung di inbox kamu.</p>
+    <div class="email-form">
+      <input type="email" placeholder="Masukkan email kamu…" id="emailInput">
+      <button class="btn-primary" onclick="subscribeEmail()">
+        Daftar
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <p style="font-size:11px;color:rgba(255,255,255,.28);margin-top:14px;">Dengan mendaftar, kamu menyetujui Kebijakan Privasi kami. Berhenti langganan kapan saja.</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <span class="footer-logo">SEO<span style="color:var(--lime);">.</span></span>
+      <p class="footer-desc">Platform ekosistem lari dan trail run terlengkap di Indonesia. Dari aspal kota hingga puncak gunung — kami siapkan semua yang kamu butuhkan.</p>
+      <div class="social-links">
+        <a href="https://www.instagram.com/faris_fasyafi12_31?igsh=cjlqcGd3N3NtcHdz" class="social-btn" title="Instagram" target="_blank" rel="noopener noreferrer">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+  </svg>
+</a>
+
+<a href="https://www.tiktok.com/@fasyafiii?_r=1&_t=ZS-96gEefQ5lfI" class="social-btn" title="TikTok" target="_blank" rel="noopener noreferrer">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</a>
+        <a href="#" class="social-btn" title="Twitter/X">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M4 20L20 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </a>
+        <a href="#" class="social-btn" title="YouTube">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/><polygon points="10,10 10,17 17,13.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Produk</h4>
+      <ul>
+        <li><a href="#">Sepatu Lari Jalan Raya</a></li>
+        <li><a href="#">Sepatu Trail Run</a></li>
+        <li><a href="#">Jersey & Baju Lari</a></li>
+        <li><a href="#">Celana & Shorts</a></li>
+        <li><a href="#">Smartwatch GPS</a></li>
+        <li><a href="#">Aksesoris Lari</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Layanan</h4>
+      <ul>
+        <li><a href="#">Panduan Ukuran</a></li>
+        <li><a href="#">Lacak Pesanan</a></li>
+        <li><a href="#">Retur & Penukaran</a></li>
+        <li><a href="#">Kebijakan Pengiriman</a></li>
+        <li><a href="#">Pusat Bantuan</a></li>
+        <li><a href="#">Hubungi Kami</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Perusahaan</h4>
+      <ul>
+        <li><a href="#">Tentang Seo</a></li>
+        <li><a href="#">Komunitas Pelari</a></li>
+        <li><a href="#">Blog & Tips Lari</a></li>
+        <li><a href="#">Kemitraan</a></li>
+        <li><a href="#">Karir</a></li>
+        <li><a href="#">Kebijakan Privasi</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 SEO Indonesia — Run Further. Run Wilder.</p>
+    <div class="payment-icons">
+      <span class="pay-icon">VISA</span>
+      <span class="pay-icon">MASTERCARD</span>
+      <span class="pay-icon">GoPay</span>
+      <span class="pay-icon">OVO</span>
+      <span class="pay-icon">DANA</span>
+      <span class="pay-icon">BCA</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toast-dot"></div>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+  // ─── HEADER SCROLL ───
+  const header = document.getElementById('mainHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // ─── HERO SLIDER ───
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  let autoSlide;
+
+  function goToSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = (n + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+    resetAuto();
+  }
+  function nextSlide() { goToSlide(currentSlide + 1); }
+  function prevSlide() { goToSlide(currentSlide - 1); }
+  function resetAuto() {
+    clearInterval(autoSlide);
+    autoSlide = setInterval(nextSlide, 5500);
+  }
+  autoSlide = setInterval(nextSlide, 5500);
+
+  // ─── WISHLIST TOGGLE ───
+  function toggleWishlist(btn) {
+    btn.classList.toggle('active');
+    const isActive = btn.classList.contains('active');
+    btn.innerHTML = isActive
+      ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`
+      : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>`;
+    showToast(isActive ? '❤️ Ditambahkan ke wishlist' : 'Dihapus dari wishlist');
+  }
+
+  // ─── ADD TO CART ───
+  let cartCount = 0;
+  function addToCart(name) {
+    cartCount++;
+    document.getElementById('cartCount').textContent = cartCount;
+    showToast(`🛒 "${name}" ditambahkan ke keranjang!`);
+  }
+
+  // ─── TOAST ───
+  let toastTimer;
+  function showToast(msg) {
+    clearTimeout(toastTimer);
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    toast.classList.add('show');
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ─── MOBILE NAV ───
+  function openMobileNav() { document.getElementById('mobileNav').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); document.body.style.overflow=''; }
+  function toggleMobile(btn) {
+    const sub = btn.nextElementSibling;
+    const span = btn.querySelector('span');
+    sub.classList.toggle('open');
+    span.textContent = sub.classList.contains('open') ? '−' : '+';
+  }
+
+  // ─── COUNTDOWN ───
+  function updateCountdown() {
+    const now = new Date();
+    let end = new Date();
+    end.setHours(23, 59, 59, 0);
+    let diff = Math.max(0, (end - now) / 1000);
+    const h = Math.floor(diff / 3600);
+    const m = Math.floor((diff % 3600) / 60);
+    const s = Math.floor(diff % 60);
+    document.getElementById('countdown').textContent =
+      String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ─── EMAIL SUBSCRIBE ───
+  function subscribeEmail() {
+    const input = document.getElementById('emailInput');
+    if (!input.value || !input.value.includes('@')) {
+      showToast('⚠️ Masukkan email yang valid');
+      return;
+    }
+    showToast('✅ Berhasil didaftarkan! Cek inbox kamu.');
+    input.value = '';
+  }
+
+  // ─── INTERSECTION OBSERVER (fade-in sections) ───
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.product-card, .cat-card, .trust-item, .stat-item').forEach(el => {
+    el.style.cssText += 'opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease;';
+    observer.observe(el);
+  });
+
+  // Color swatch selector
+  document.querySelectorAll('.swatch').forEach(swatch => {
+    swatch.addEventListener('click', function() {
+      this.closest('.color-swatches').querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
